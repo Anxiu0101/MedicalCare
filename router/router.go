@@ -14,11 +14,6 @@ func InitRouter() *gin.Engine {
 		})
 	})
 
-	userApi := r.Group("/")
-	{
-		userApi.POST("/user/register")
-	}
-
 	// 404 信息返回
 	r.NoRoute(func(c *gin.Context) {
 		c.String(http.StatusNotFound, "404 not found")

@@ -2,6 +2,7 @@ package main
 
 import (
 	"MedicalCare/conf"
+	"MedicalCare/model"
 	"MedicalCare/router"
 	"fmt"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 
 func init() {
 	conf.Setup()
+	model.Setup()
 }
 
 func main() {

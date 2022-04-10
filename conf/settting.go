@@ -36,12 +36,15 @@ type Server struct {
 var ServerSetting = &Server{}
 
 type Database struct {
-	Type        string
-	User        string
-	Password    string
-	Host        string
-	Name        string
-	TablePrefix string
+	Type               string
+	User               string
+	Password           string
+	Host               string
+	Name               string
+	TablePrefix        string
+	SetMaxIdleConns    int
+	SetMaxOpenConns    int
+	SetConnMaxLifetime time.Duration
 }
 
 var DatabaseSetting = &Database{}
@@ -75,6 +78,7 @@ func Setup() {
 	AppSetting.ImageMaxSize = AppSetting.ImageMaxSize * 1024 * 1024
 	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second
 	ServerSetting.WriteTimeout = ServerSetting.WriteTimeout * time.Second
+	DatabaseSetting.SetConnMaxLifetime = DatabaseSetting.SetConnMaxLifetime * time.Hour
 	RedisSetting.IdleTimeout = RedisSetting.IdleTimeout * time.Second
 
 	fmt.Println("DatabaseSetting.User: " + DatabaseSetting.User)
