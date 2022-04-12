@@ -9,6 +9,8 @@ import (
 	"net/http"
 )
 
+// @BasePath /api/v1
+
 func InitRouter() *gin.Engine {
 	r := gin.Default()
 
