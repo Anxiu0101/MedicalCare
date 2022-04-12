@@ -2,7 +2,7 @@ package router
 
 import (
 	v1 "MedicalCare/api/v1"
-	//docs "github.com/Anxiu0101/MedicalCare/docs"
+	"MedicalCare/docs"
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -12,7 +12,7 @@ import (
 func InitRouter() *gin.Engine {
 	r := gin.Default()
 
-	//docs.SwaggerInfo.BasePath = "/api/v1"
+	docs.SwaggerInfo.BasePath = "/api/v1"
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{

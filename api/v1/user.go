@@ -4,6 +4,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @BasePath /api/v1
+
+// UserRegister godoc
+// @Summary User Register
+// @Schemes
+// @Description help User Create Account
+// @Tags user
+// @Accept json
+// @Produce json
+// @Success 200 {string} UserRegister
+// @Router /user/register [post]
 func UserRegister(c *gin.Context) {
 
 }
