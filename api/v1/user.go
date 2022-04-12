@@ -4,6 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @BasePath /api/v1
+
 // UserRegister godoc
 // @Summary User Register
 // @Schemes
