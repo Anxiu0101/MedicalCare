@@ -1,9 +1,12 @@
 package main
 
 import (
+	"MedicalCare/cache"
 	"MedicalCare/conf"
 	"MedicalCare/model"
+	"MedicalCare/pkg/logging"
 	"MedicalCare/router"
+	"MedicalCare/service"
 	"fmt"
 	"net/http"
 )
@@ -11,10 +14,14 @@ import (
 func init() {
 	conf.Setup()
 	model.Setup()
+	cache.Setup()
+	logging.Setup()
 }
 
 func main() {
 	router := router.InitRouter()
+
+	go service.Manager.Listen()
 
 	s := &http.Server{
 		Addr:           fmt.Sprintf(":%d", conf.ServerSetting.HttpPort),

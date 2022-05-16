@@ -3,6 +3,7 @@ package router
 import (
 	v1 "MedicalCare/api/v1"
 	"MedicalCare/docs"
+	"MedicalCare/middleware"
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -22,15 +23,26 @@ func InitRouter() *gin.Engine {
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
+	// no token router
 	apiUser := r.Group("/user")
 	{
 		apiUser.POST("/register", v1.UserRegister)
 		apiUser.POST("/login", v1.UserLogin)
+		apiUser.GET("/token", v1.RefreshAccessToken)
 	}
 
+	// token router
 	apiv1 := r.Group("/")
+	apiv1.Use(middleware.JWT())
 	{
+		apiv1.POST("/user/password", v1.ResetUserPassword)
 		apiv1.GET("/user/info", v1.GetUserInfo)
+		apiv1.POST("/user/info", v1.UpdateUserInfo)
+
+		apiv1.POST("/group", v1.CreateGroup)
+		apiv1.PUT("/group/member", v1.InviteMember)
+
+		apiv1.GET("/chat/:receiver", v1.Chat)
 	}
 
 	// 404 信息返回

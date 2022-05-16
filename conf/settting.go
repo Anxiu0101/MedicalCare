@@ -1,7 +1,6 @@
 package conf
 
 import (
-	"fmt"
 	"log"
 	"time"
 
@@ -41,6 +40,9 @@ type Database struct {
 	Password           string
 	Host               string
 	Name               string
+	Port               string
+	SSLMode            string
+	TimeZone           string
 	TablePrefix        string
 	SetMaxIdleConns    int
 	SetMaxOpenConns    int
@@ -80,8 +82,6 @@ func Setup() {
 	ServerSetting.WriteTimeout = ServerSetting.WriteTimeout * time.Second
 	DatabaseSetting.SetConnMaxLifetime = DatabaseSetting.SetConnMaxLifetime * time.Hour
 	RedisSetting.IdleTimeout = RedisSetting.IdleTimeout * time.Second
-
-	fmt.Println("DatabaseSetting.User: " + DatabaseSetting.User)
 }
 
 // mapTo map section

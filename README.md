@@ -12,14 +12,18 @@
 # web structure
 $ go get -u github.com/gin-gonic/gin
 
-# database
+# database: postgreSQL, redis
 $ go get -u gorm.io/gorm
-$ go get -u gorm.io/driver/mysql
+$ go get -u gorm.io/driver/postgres
+$ ggithub.com/go-redis/redis/v8
 
 # doc
 $ go get -u github.com/swaggo/swag/cmd/swag
 $ go get -u github.com/swaggo/gin-swagger
 $ go get -u github.com/swaggo/files
+
+# websocket
+$ go get -u github.com/gorilla/websocket
 
 # util
 $ go get -u github.com/go-ini/ini # config file reader

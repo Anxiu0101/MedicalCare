@@ -40,6 +40,17 @@ func (user *User) CheckPassword(password string) bool {
 	return err == nil
 }
 
+// LoadRelation 将用户好友关系载入缓存
+func LoadRelation() error {
+	var err error
+	return err
+}
+
+// UploadRelation 将用户关系从缓存中更新
+func UploadRelation() {
+
+}
+
 /* serialization */
 
 // UserInfo 用户资料结构体
@@ -50,12 +61,14 @@ type UserInfo struct {
 	Tel    int    `json:"tel" form:"tel"`
 }
 
+// AccountInfo 账户资料结构体
 type AccountInfo struct {
 	ID       uint   `json:"id" form:"id"`
 	UserName string `json:"username" form:"username"`
 	Avatars  string `json:"avatars" form:"avatars"`
 }
 
+// BuildUserInfo 将 User 对象序列化为 UserInfo
 func BuildUserInfo(user User) UserInfo {
 	return UserInfo{
 		Email:  user.Email,
@@ -65,6 +78,7 @@ func BuildUserInfo(user User) UserInfo {
 	}
 }
 
+// BuildAccountInfo 将 User 对象序列化为 AccountInfo
 func BuildAccountInfo(user User) AccountInfo {
 	return AccountInfo{
 		ID:       user.ID,
@@ -73,15 +87,15 @@ func BuildAccountInfo(user User) AccountInfo {
 	}
 }
 
-func BuildUser(user User) (AccountInfo, UserInfo) {
-	return AccountInfo{
-			ID:       user.ID,
-			UserName: user.UserName,
-			Avatars:  user.Avatars,
-		}, UserInfo{
-			Email:  user.Email,
-			Gender: user.Gender,
-			Age:    user.Age,
-			Tel:    user.Tel,
-		}
+// BuildUser 序列化 User
+func BuildUser(user User) User {
+	return User{
+		UserName: user.UserName,
+		Avatars:  user.Avatars,
+
+		Email:  user.Email,
+		Gender: user.Gender,
+		Age:    user.Age,
+		Tel:    user.Tel,
+	}
 }
