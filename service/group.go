@@ -1,9 +1,9 @@
 package service
 
 import (
-	"IMConnection/model"
-	"IMConnection/pkg/e"
-	"IMConnection/pkg/logging"
+	"MedicalCare/model"
+	"MedicalCare/pkg/e"
+	"MedicalCare/pkg/logging"
 	"errors"
 	"fmt"
 	"gorm.io/gorm"

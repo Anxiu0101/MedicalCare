@@ -1,7 +1,7 @@
 package logging
 
 import (
-	"IMConnection/conf"
+	"MedicalCare/conf"
 	"fmt"
 	"log"
 	"os"

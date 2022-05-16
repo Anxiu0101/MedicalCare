@@ -1,7 +1,7 @@
 package util
 
 import (
-	"IMConnection/conf"
+	"MedicalCare/conf"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"

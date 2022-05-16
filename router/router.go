@@ -38,6 +38,7 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/user/password", v1.ResetUserPassword)
 		apiv1.GET("/user/info", v1.GetUserInfo)
 		apiv1.POST("/user/info", v1.UpdateUserInfo)
+		apiv1.GET("/user/online", v1.UserOnline)
 
 		apiv1.POST("/group", v1.CreateGroup)
 		apiv1.PUT("/group/member", v1.InviteMember)

@@ -1,8 +1,8 @@
 package model
 
 import (
-	"IMConnection/conf"
-	"IMConnection/pkg/e"
+	"MedicalCare/conf"
+	"MedicalCare/pkg/e"
 	"encoding/json"
 	"fmt"
 	"github.com/go-playground/validator/v10"

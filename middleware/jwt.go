@@ -6,8 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"IMConnection/pkg/e"
-	"IMConnection/pkg/util"
+	"MedicalCare/pkg/e"
+	"MedicalCare/pkg/util"
 )
 
 func JWT() gin.HandlerFunc {

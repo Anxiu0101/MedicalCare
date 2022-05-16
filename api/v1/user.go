@@ -52,6 +52,15 @@ func UserLogin(c *gin.Context) {
 	}
 }
 
+// ResetUserPassword godoc
+// @Summary User reset password
+// @Schemes
+// @Description help User update account password
+// @Tags user
+// @Accept json
+// @Produce json
+// @Success 200 {string} ResetUserPassword
+// @Router /user/password [post]
 func ResetUserPassword(c *gin.Context) {
 	var accountService service.AccountService
 	if err := c.ShouldBind(&accountService); err == nil {
@@ -68,6 +77,15 @@ func RefreshAccessToken(c *gin.Context) {
 
 }
 
+// GetUserInfo godoc
+// @Summary Get User Info
+// @Schemes
+// @Description get user account info
+// @Tags user
+// @Accept json
+// @Produce json
+// @Success 200 {string} GetUserInfo
+// @Router /user/info [get]
 func GetUserInfo(c *gin.Context) {
 	var userService service.UserService
 	if err := c.ShouldBind(&userService); err == nil {
@@ -80,6 +98,15 @@ func GetUserInfo(c *gin.Context) {
 	}
 }
 
+// UpdateUserInfo godoc
+// @Summary Update User Info
+// @Schemes
+// @Description update user account info
+// @Tags user
+// @Accept json
+// @Produce json
+// @Success 200 {string} UpdateUserInfo
+// @Router /user/info [post]
 func UpdateUserInfo(c *gin.Context) {
 	var userService service.UserService
 	if err := c.ShouldBind(&userService); err == nil {
@@ -92,6 +119,15 @@ func UpdateUserInfo(c *gin.Context) {
 	}
 }
 
+// UserOnline godoc
+// @Summary Get User online
+// @Schemes
+// @Description get user is online or not
+// @Tags user
+// @Accept json
+// @Produce json
+// @Success 200 {string} UserOnline
+// @Router /user/online [get]
 func UserOnline(c *gin.Context) {
 	claim, _ := util.ParseToken(c.GetHeader("Authorization"))
 	if cache.GetUserOnline(int(claim.ID)) {

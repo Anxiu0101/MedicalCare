@@ -1,7 +1,7 @@
 package service
 
 import (
-	"IMConnection/pkg/e"
+	"MedicalCare/pkg/e"
 	"encoding/json"
 	"github.com/gorilla/websocket"
 	"log"

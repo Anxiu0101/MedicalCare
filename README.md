@@ -15,7 +15,7 @@ $ go get -u github.com/gin-gonic/gin
 # database: postgreSQL, redis
 $ go get -u gorm.io/gorm
 $ go get -u gorm.io/driver/postgres
-$ ggithub.com/go-redis/redis/v8
+$ go get -u github.com/go-redis/redis/v8
 
 # doc
 $ go get -u github.com/swaggo/swag/cmd/swag
@@ -28,6 +28,7 @@ $ go get -u github.com/gorilla/websocket
 # util
 $ go get -u github.com/go-ini/ini # config file reader
 $ go get -u golang.org/x/crypto/bcrypt # transform Ciphertext
+$ go get -u github.com/dgrijalva/jwt-go # support JWT authority
 ```
 
 ## Function

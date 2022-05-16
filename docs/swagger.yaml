@@ -1,6 +1,125 @@
 info:
   contact: {}
 paths:
+  /chat/:receiver:
+    get:
+      consumes:
+      - application/json
+      description: A chat room connect by websocket
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: chat room api
+      tags:
+      - user
+  /group:
+    post:
+      consumes:
+      - application/json
+      description: set up a group
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: create group
+      tags:
+      - user
+  /group/member:
+    put:
+      consumes:
+      - application/json
+      description: invite group members
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: invite member
+      tags:
+      - user
+  /user/info:
+    get:
+      consumes:
+      - application/json
+      description: get user account info
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Get User Info
+      tags:
+      - user
+    post:
+      consumes:
+      - application/json
+      description: update user account info
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Update User Info
+      tags:
+      - user
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: help User login site
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: User Login
+      tags:
+      - user
+  /user/online:
+    get:
+      consumes:
+      - application/json
+      description: get user is online or not
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Get User online
+      tags:
+      - user
+  /user/password:
+    post:
+      consumes:
+      - application/json
+      description: help User update account password
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: User reset password
+      tags:
+      - user
   /user/register:
     post:
       consumes:

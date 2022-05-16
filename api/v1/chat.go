@@ -1,9 +1,9 @@
 package v1
 
 import (
-	"IMConnection/cache"
-	"IMConnection/pkg/util"
-	"IMConnection/service"
+	"MedicalCare/cache"
+	"MedicalCare/pkg/util"
+	"MedicalCare/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -11,6 +11,15 @@ import (
 	"net/http"
 )
 
+// Chat godoc
+// @Summary chat room api
+// @Schemes
+// @Description A chat room connect by websocket
+// @Tags user
+// @Accept json
+// @Produce json
+// @Success 200 {string} Chat
+// @Router /chat/:receiver [get]
 func Chat(c *gin.Context) {
 	claim, _ := util.ParseToken(c.GetHeader("Authorization"))
 	sender := claim.Username
