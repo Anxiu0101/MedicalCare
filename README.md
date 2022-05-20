@@ -62,6 +62,10 @@ Postman API document address: [Postman Public Document](https://documenter.getpo
 
 - Distance minimum hospital
 
+### Chat Part
+
+- Chat with doctor to ask help
+
 
 
 ## Development Environment
