@@ -1,4 +1,16 @@
+basePath: /api/v1
 definitions:
+  model.AccountInfo:
+    properties:
+      avatars:
+        type: string
+      id:
+        example: 1
+        type: integer
+      username:
+        example: Anxiu
+        type: string
+    type: object
   model.Response:
     properties:
       code:
@@ -17,9 +29,118 @@ definitions:
         type: string
       user: {}
     type: object
+  model.UserInfo:
+    properties:
+      age:
+        example: 20
+        type: integer
+      email:
+        example: email@example.com
+        type: string
+      gender:
+        example: 1
+        type: integer
+      tel:
+        example: 188-8888-6666
+        type: string
+    type: object
+host: localhost:8000
 info:
-  contact: {}
+  contact:
+    email: anxiu.fyc@foxmail.com
+    name: Anxiu0101
+    url: https://github.com/Anxiu0101/MedicalCare/blob/master/README.md
+  description: This is MedicalCare Project api docs.
+  title: MedicalCare API
+  version: "1.0"
 paths:
+  /api/v1/user/info:
+    get:
+      consumes:
+      - application/json
+      description: 用于用户获取其个人资料
+      parameters:
+      - description: Authorization
+        in: header
+        name: x-token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.UserInfo'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - x-token: []
+      summary: 用户资料获取接口
+      tags:
+      - 用户相关接口
+    put:
+      consumes:
+      - application/json
+      description: 用于用户更新其个人资料
+      parameters:
+      - description: Authorization
+        in: header
+        name: x-token
+        required: true
+        type: string
+      - description: 新密码
+        in: formData
+        name: email
+        type: string
+      - description: 新密码
+        in: formData
+        name: gender
+        type: integer
+      - description: 新密码
+        in: formData
+        name: age
+        type: integer
+      - description: 新密码
+        in: formData
+        name: tel
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.UserInfo'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - x-token: []
+      summary: 用户资料更新接口
+      tags:
+      - 用户相关接口
   /api/v1/user/login:
     post:
       consumes:
@@ -42,11 +163,25 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.TokenData'
+            allOf:
+            - $ref: '#/definitions/model.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/model.TokenData'
+                  - properties:
+                      User:
+                        $ref: '#/definitions/model.AccountInfo'
+                    type: object
+              type: object
         "400":
-          description: 输入参数错误
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
         "500":
-          description: 服务错误
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
       summary: 用户登陆接口
       tags:
       - 用户相关接口
@@ -56,6 +191,11 @@ paths:
       - application/json
       description: 用于用户更新密码，需要新密码做为传入的参数，需要 token 验证
       parameters:
+      - description: Authorization
+        in: header
+        name: x-token
+        required: true
+        type: string
       - description: 新密码
         in: formData
         name: password
@@ -69,9 +209,15 @@ paths:
           schema:
             $ref: '#/definitions/model.Response'
         "400":
-          description: 输入参数错误
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
         "500":
-          description: 服务错误
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - x-token: []
       summary: 用户重新设置密码接口
       tags:
       - 用户相关接口
@@ -99,9 +245,13 @@ paths:
           schema:
             $ref: '#/definitions/model.Response'
         "400":
-          description: 输入参数错误
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
         "500":
-          description: 服务错误
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
       summary: 用户注册接口
       tags:
       - 用户相关接口
@@ -148,35 +298,6 @@ paths:
           schema:
             type: string
       summary: invite member
-      tags:
-      - user
-  /user/info:
-    get:
-      consumes:
-      - application/json
-      description: get user account info
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-      summary: Get User Info
-      tags:
-      - user
-    post:
-      consumes:
-      - application/json
-      description: update user account info
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-      summary: Update User Info
       tags:
       - user
   /user/online:

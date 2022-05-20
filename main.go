@@ -18,6 +18,14 @@ func init() {
 	logging.Setup()
 }
 
+// @title MedicalCare API
+// @version 1.0
+// @description This is MedicalCare Project api docs.
+// @contact.name Anxiu0101
+// @contact.email anxiu.fyc@foxmail.com
+// @contact.url https://github.com/Anxiu0101/MedicalCare/blob/master/README.md
+// @host localhost:8000
+// @BasePath /api/v1
 func main() {
 	router := router.InitRouter()
 

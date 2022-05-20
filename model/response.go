@@ -29,12 +29,6 @@ type TokenData struct {
 	RefreshToken string      `json:"refresh_token"`
 }
 
-//TrackedErrorResponse 有追踪信息的错误反应
-type TrackedErrorResponse struct {
-	Response
-	TrackID string `json:"track_id"`
-}
-
 // BuildListResponse 带有总数的列表构建器
 func BuildListResponse(items interface{}, total uint) Response {
 	return Response{

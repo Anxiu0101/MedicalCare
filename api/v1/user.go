@@ -10,19 +10,17 @@ import (
 	"net/http"
 )
 
-// @BasePath  /api/v1
-
 // UserRegister godoc
 // @Summary      用户注册接口
 // @Description  用于注册新用户，传入 username 和 password 作为新用户的 username 和 password
 // @Tags         用户相关接口
-// @Accept       application/json
-// @Produce      application/json
+// @Accept       json
+// @Produce      json
 // @Param        username  formData  string  true  "用户名"
 // @Param        password  formData  string  true  "用户密码"
-// @Success      200       {object}  model.Response{code: 200, data: "Successful Register", msg: "ok"}
-// @Failure      400       "输入参数错误"
-// @Failure      500       "服务错误"
+// @Success      200       {object}  model.Response
+// @Failure      400       {object}  model.Response
+// @Failure      500       {object}  model.Response
 // @Router       /api/v1/user/register [post]
 func UserRegister(c *gin.Context) {
 	var accountService service.AccountService
@@ -39,13 +37,13 @@ func UserRegister(c *gin.Context) {
 // @Summary      用户登陆接口
 // @Description  用于用户登陆，接受用户名和用户密码，将 access token 和 refresh token 作为结果返回，同时返回用户的账户信息
 // @Tags         用户相关接口
-// @Accept       application/json
-// @Produce      application/json
+// @Accept       json
+// @Produce      json
 // @Param        username  formData  string  true  "用户名"
 // @Param        password  formData  string  true  "用户密码"
-// @Success      200       {object}  model.Response{data:model.TokenData}
-// @Failure      400       "输入参数错误"
-// @Failure      500       "服务错误"
+// @Success      200       {object}  model.Response{data=model.TokenData{User=model.AccountInfo}}
+// @Failure      400       {object}  model.Response
+// @Failure      500       {object}  model.Response
 // @Router       /api/v1/user/login [post]
 func UserLogin(c *gin.Context) {
 	var accountService service.AccountService
@@ -62,13 +60,14 @@ func UserLogin(c *gin.Context) {
 // @Summary      用户重新设置密码接口
 // @Description  用于用户更新密码，需要新密码做为传入的参数，需要 token 验证
 // @Tags         用户相关接口
-// @Accept       application/json
-// @Produce      application/json
-// @Param        password  formData  string  true  "新密码"
-// @Param        Authorization  header  string  true  "token"
+// @Accept       json
+// @Produce      json
+// @Security x-token
+// @Param x-token header string true "Authorization"
+// @Param        password       formData  string  true  "新密码"
 // @Success      200       {object}  model.Response
-// @Failure      400       {object}  model.Response
-// @Failure      500       {object}  model.Response
+// @Failure      400            {object}  model.Response
+// @Failure      500            {object}  model.Response
 // @Router       /api/v1/user/password [post]
 func ResetUserPassword(c *gin.Context) {
 	var accountService service.AccountService
@@ -87,14 +86,17 @@ func RefreshAccessToken(c *gin.Context) {
 }
 
 // GetUserInfo godoc
-// @Summary  Get User Info
-// @Schemes
-// @Description  get user account info
-// @Tags         user
+// @Summary      用户资料获取接口
+// @Description  用于用户获取其个人资料
+// @Tags         用户相关接口
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  GetUserInfo
-// @Router       /user/info [get]
+// @Security x-token
+// @Param x-token header string true "Authorization"
+// @Success      200       {object}  model.Response{data=model.UserInfo}
+// @Failure      400            {object}  model.Response
+// @Failure      500            {object}  model.Response
+// @Router       /api/v1/user/info [get]
 func GetUserInfo(c *gin.Context) {
 	var userService service.UserService
 	if err := c.ShouldBind(&userService); err == nil {
@@ -108,19 +110,26 @@ func GetUserInfo(c *gin.Context) {
 }
 
 // UpdateUserInfo godoc
-// @Summary  Update User Info
-// @Schemes
-// @Description  update user account info
-// @Tags         user
+// @Summary      用户资料更新接口
+// @Description  用于用户更新其个人资料
+// @Tags         用户相关接口
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  UpdateUserInfo
-// @Router       /user/info [post]
+// @Security x-token
+// @Param x-token header string true "Authorization"
+// @Param        email       formData  string  false  "新密码"
+// @Param        gender       formData  int  false  "新密码"
+// @Param        age       formData  int  false  "新密码"
+// @Param        tel       formData  string  false  "新密码"
+// @Success      200       {object}  model.Response{data=model.UserInfo}
+// @Failure      400            {object}  model.Response
+// @Failure      500            {object}  model.Response
+// @Router       /api/v1/user/info [put]
 func UpdateUserInfo(c *gin.Context) {
 	var userService service.UserService
 	if err := c.ShouldBind(&userService); err == nil {
 		claim, _ := util.ParseToken(c.GetHeader("Authorization"))
-		res := userService.GetInfo(claim.ID)
+		res := userService.UpdateInfo(claim.ID)
 		c.JSON(http.StatusOK, res)
 	} else {
 		logging.Info(err)

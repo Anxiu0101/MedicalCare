@@ -10,9 +10,9 @@ import (
 
 // AccountService 账户服务，关于用户的登陆和注册
 type AccountService struct {
-	Username string `json:"username" form:"username"`
-	Password string `json:"password" form:"password"`
-	Avatars  string `json:"avatars"  form:"avatars"`
+	Username string `json:"username" form:"username" example:"username"`
+	Password string `json:"password" form:"password" example:"password"`
+	Avatars  string `json:"avatars"  form:"avatars" example:"avatars"`
 }
 
 // Register
@@ -104,7 +104,6 @@ func (service *AccountService) Login() model.Response {
 	}
 
 	// 将用户好友关系载入缓存，若加载失败则退出并返回 加载用户关系失败
-	// TODO 修改其使得用户关系加载失败也可以正常登录
 	if err := model.LoadRelation(); err != nil {
 		logging.Info(err)
 		code = e.Error
@@ -140,7 +139,6 @@ func (service *AccountService) Login() model.Response {
 // ResetPassword
 // 1. 查询用户
 // 2. 设置用户密码
-// 3. 删除 refresh token
 // 3. 返回结果
 func (service *AccountService) ResetPassword(id uint, newPassword string) model.Response {
 	code := e.Success
@@ -178,10 +176,10 @@ func (service *AccountService) ResetPassword(id uint, newPassword string) model.
 
 // UserService 用户服务，关于用户的信息以及好友关系等。
 type UserService struct {
-	Email  string `json:"email" form:"email"`
-	Gender int    `json:"gender" form:"gender"`
-	Age    int    `json:"age" form:"age"`
-	Tel    int    `json:"tel" form:"tel"`
+	Email  string `json:"email" form:"email" example:"email@example.com"`
+	Gender int    `json:"gender" form:"gender" example:"1"`
+	Age    int    `json:"age" form:"age" example:"20"`
+	Tel    string `json:"tel" form:"tel" example:"188-8888-6666"`
 }
 
 // GetInfo 获取用户信息
@@ -191,19 +189,8 @@ type UserService struct {
 func (service *UserService) GetInfo(uid uint) model.Response {
 	code := e.Success
 
-	var user model.User
-	if err := model.DB.Model(model.User{}).First(&user).Error; err != nil {
-		code = e.Error
-		logging.Info(err)
-		return model.Response{
-			Code: code,
-			Msg:  e.GetMsg(code),
-			Data: "用户不存在",
-		}
-	}
-
 	var userInfo model.UserInfo
-	if err := model.DB.Model(user).Find(&userInfo).Error; err != nil {
+	if err := model.DB.Model(model.User{}).Where("id = ?", uid).Find(&userInfo).Error; err != nil {
 		code = e.Error
 		logging.Info(err)
 		return model.Response{
@@ -223,10 +210,25 @@ func (service *UserService) GetInfo(uid uint) model.Response {
 // UpdateInfo 更新用户信息
 // 1. 检查用户
 // 2. 更新用户信息
-func (service *UserService) UpdateInfo() model.Response {
+func (service *UserService) UpdateInfo(uid uint) model.Response {
 	code := e.Success
 
 	// TODO UpdateInfo Service
+	// 查询用户是否存在
+	var user model.User
+	if err := model.DB.Model(model.User{}).Where("id = ?", uid).Find(&user).Error; err != nil {
+		code = e.InvalidParams
+		logging.Info(err)
+		return model.Response{
+			Code: code,
+			Msg:  e.GetMsg(code),
+			Data: "用户不存在",
+		}
+	}
+
+	if err := model.DB.Model(user).Updates(service).Error; err != nil {
+
+	}
 
 	return model.Response{
 		Code: code,

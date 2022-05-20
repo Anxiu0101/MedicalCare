@@ -4,32 +4,36 @@
 
 ## Simple Intro
 
-一个便民医护软件，主要目的是为了方便查询药价，并获取一些医疗建议。
+一个便民医护软件，主要目的是为了方便查询药价，并可以通过聊天室联系医师获取一些医疗建议。
 
-## Main Dependence
+Swagger API document address: [Swagger UI](http://139.9.221.94:8000/swagger/index.html)
+Postman API document address: [Postman Public Document](https://documenter.getpostman.com/view/16949749/Uyxoh3ko)
 
-```shell
-# web structure
-$ go get -u github.com/gin-gonic/gin
+## Project Structure
 
-# database: postgreSQL, redis
-$ go get -u gorm.io/gorm
-$ go get -u gorm.io/driver/postgres
-$ go get -u github.com/go-redis/redis/v8
-
-# doc
-$ go get -u github.com/swaggo/swag/cmd/swag
-$ go get -u github.com/swaggo/gin-swagger
-$ go get -u github.com/swaggo/files
-
-# websocket
-$ go get -u github.com/gorilla/websocket
-
-# util
-$ go get -u github.com/go-ini/ini # config file reader
-$ go get -u golang.org/x/crypto/bcrypt # transform Ciphertext
-$ go get -u github.com/dgrijalva/jwt-go # support JWT authority
 ```
+.
+├── api
+│   ├── common.go # response struct
+│   └── v1 # the version 1.0 api
+├── cache # cache functions and cron task
+├── conf # contains the conf file
+├── Dockerfile
+├── docs # swagger docu folder
+├── service
+├── router
+├── middleware
+├── model
+├── pkg 
+│   ├── e # error message
+│   ├── logging # log function
+│   └── util # util function
+├── go.mod # go module file
+├── go.sum
+└── main.go # the enterance of project
+```
+
+
 
 ## Function
 
@@ -47,7 +51,7 @@ $ go get -u github.com/dgrijalva/jwt-go # support JWT authority
 
 ### Reminder Part
 
-- Reminder Object: behavior or medical eat.
+- Reminder Object: behaviour or medical eat.
 
 ### Medical Part
 
@@ -62,7 +66,23 @@ $ go get -u github.com/dgrijalva/jwt-go # support JWT authority
 
 ## Development Environment
 
-- Goland 2021.3.3
 - Golang 1.18
-- MySQL 8.0.27
-- 
+- PostgreSQL 11.13
+- Redis 3.2.100
+
+### Main Dependence
+
+- github.com/gin-gonic/gin -> A MVC web framework
+- gorm.io/gorm -> ORM for golang
+- github.com/go-redis/redis/v8 -> Connect to Redis
+- github.com/swaggo/gin-swagger -> Auto api docs generation
+- github.com/gorilla/websocket -> Web Socket library
+- golang.org/x/crypto/bcrypt -> Password encrypt
+- github.com/dgrijalva/jwt-go -> JWT authority
+- github.com/go-ini/ini -> ini Config file library
+
+### Development Tools
+
+- Goland 2021.3.3
+- Docker 20.10.14
+- Postman 9.19.3

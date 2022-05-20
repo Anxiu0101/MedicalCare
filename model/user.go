@@ -11,15 +11,15 @@ type User struct {
 	gorm.Model
 
 	// Account Info
-	UserName string `json:"username"  example:"Anxiu"  gorm:"column:username;not null;uniqueIndex"`
-	Password string `json:"password"  example:"123456" gorm:"column:password"`
+	UserName string `json:"username" gorm:"column:username;not null;uniqueIndex"`
+	Password string `json:"password" gorm:"column:password"`
 	Avatars  string `json:"avatars" gorm:"column:avatars"`
 
 	// User Info
 	Email  string `json:"email" gorm:"type:varchar(100);unique"`
 	Gender int    `json:"gender" gorm:"size:3"`
 	Age    int    `json:"age" gorm:"size:8"`
-	Tel    int    `json:"tel" gorm:"size:13"`
+	Tel    string `json:"tel" gorm:"size:64"`
 
 	State bool `json:"state" gorm:"default:true;column:state"`
 }
@@ -55,16 +55,16 @@ func UploadRelation() {
 
 // UserInfo 用户资料结构体
 type UserInfo struct {
-	Email  string `json:"email" form:"email"`
-	Gender int    `json:"gender" form:"gender"`
-	Age    int    `json:"age" form:"age"`
-	Tel    int    `json:"tel" form:"tel"`
+	Email  string `json:"email" form:"email" example:"email@example.com"`
+	Gender int    `json:"gender" form:"gender" example:"1"`
+	Age    int    `json:"age" form:"age" example:"20"`
+	Tel    string `json:"tel" form:"tel" example:"188-8888-6666"`
 }
 
 // AccountInfo 账户资料结构体
 type AccountInfo struct {
-	ID       uint   `json:"id" form:"id"`
-	UserName string `json:"username" form:"username"`
+	ID       uint   `json:"id" form:"id" example:"1"`
+	UserName string `json:"username" form:"username" example:"Anxiu"`
 	Avatars  string `json:"avatars" form:"avatars"`
 }
 
