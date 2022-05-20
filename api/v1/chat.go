@@ -12,13 +12,17 @@ import (
 )
 
 // Chat godoc
-// @Summary  chat room api
-// @Schemes
-// @Description  A chat room connect by websocket
-// @Tags         user
+// @Summary      聊天室接口
+// @Description  用于聊天室的使用
+// @Tags         聊天室相关接口
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  Chat
+// @Security     x-token
+// @Param        x-token   header    string  true  "Authorization"
+// @Param        receiver  path      string  true  "聊天对象"
+// @Success      200       {object}  model.Response
+// @Failure      400       {object}  model.Response
+// @Failure      500       {object}  model.Response
 // @Router       /chat/:receiver [get]
 func Chat(c *gin.Context) {
 	claim, _ := util.ParseToken(c.GetHeader("Authorization"))

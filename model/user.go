@@ -53,29 +53,11 @@ func UploadRelation() {
 
 /* serialization */
 
-// UserInfo 用户资料结构体
-type UserInfo struct {
-	Email  string `json:"email" form:"email" example:"email@example.com"`
-	Gender int    `json:"gender" form:"gender" example:"1"`
-	Age    int    `json:"age" form:"age" example:"20"`
-	Tel    string `json:"tel" form:"tel" example:"188-8888-6666"`
-}
-
 // AccountInfo 账户资料结构体
 type AccountInfo struct {
 	ID       uint   `json:"id" form:"id" example:"1"`
 	UserName string `json:"username" form:"username" example:"Anxiu"`
 	Avatars  string `json:"avatars" form:"avatars"`
-}
-
-// BuildUserInfo 将 User 对象序列化为 UserInfo
-func BuildUserInfo(user User) UserInfo {
-	return UserInfo{
-		Email:  user.Email,
-		Gender: user.Gender,
-		Age:    user.Age,
-		Tel:    user.Tel,
-	}
 }
 
 // BuildAccountInfo 将 User 对象序列化为 AccountInfo
@@ -84,18 +66,5 @@ func BuildAccountInfo(user User) AccountInfo {
 		ID:       user.ID,
 		UserName: user.UserName,
 		Avatars:  user.Avatars,
-	}
-}
-
-// BuildUser 序列化 User
-func BuildUser(user User) User {
-	return User{
-		UserName: user.UserName,
-		Avatars:  user.Avatars,
-
-		Email:  user.Email,
-		Gender: user.Gender,
-		Age:    user.Age,
-		Tel:    user.Tel,
 	}
 }

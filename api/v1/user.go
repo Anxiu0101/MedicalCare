@@ -62,12 +62,12 @@ func UserLogin(c *gin.Context) {
 // @Tags         用户相关接口
 // @Accept       json
 // @Produce      json
-// @Security x-token
-// @Param x-token header string true "Authorization"
-// @Param        password       formData  string  true  "新密码"
+// @Security     x-token
+// @Param        x-token   header    string  true  "Authorization"
+// @Param        password  formData  string  true  "新密码"
 // @Success      200       {object}  model.Response
-// @Failure      400            {object}  model.Response
-// @Failure      500            {object}  model.Response
+// @Failure      400       {object}  model.Response
+// @Failure      500       {object}  model.Response
 // @Router       /api/v1/user/password [post]
 func ResetUserPassword(c *gin.Context) {
 	var accountService service.AccountService
@@ -91,11 +91,11 @@ func RefreshAccessToken(c *gin.Context) {
 // @Tags         用户相关接口
 // @Accept       json
 // @Produce      json
-// @Security x-token
-// @Param x-token header string true "Authorization"
-// @Success      200       {object}  model.Response{data=model.UserInfo}
-// @Failure      400            {object}  model.Response
-// @Failure      500            {object}  model.Response
+// @Security     x-token
+// @Param        x-token  header    string  true  "Authorization"
+// @Success      200      {object}  model.Response{data=service.UserService}
+// @Failure      400      {object}  model.Response
+// @Failure      500      {object}  model.Response
 // @Router       /api/v1/user/info [get]
 func GetUserInfo(c *gin.Context) {
 	var userService service.UserService
@@ -115,15 +115,15 @@ func GetUserInfo(c *gin.Context) {
 // @Tags         用户相关接口
 // @Accept       json
 // @Produce      json
-// @Security x-token
-// @Param x-token header string true "Authorization"
-// @Param        email       formData  string  false  "新密码"
-// @Param        gender       formData  int  false  "新密码"
-// @Param        age       formData  int  false  "新密码"
-// @Param        tel       formData  string  false  "新密码"
-// @Success      200       {object}  model.Response{data=model.UserInfo}
-// @Failure      400            {object}  model.Response
-// @Failure      500            {object}  model.Response
+// @Security     x-token
+// @Param        x-token  header    string  true   "Authorization"
+// @Param        email    formData  string  false  "用户邮箱"
+// @Param        gender   formData  int     false  "用户性别"
+// @Param        age      formData  int     false  "用户年龄"
+// @Param        tel      formData  string  false  "联系方式"
+// @Success      200      {object}  model.Response
+// @Failure      400      {object}  model.Response
+// @Failure      500      {object}  model.Response
 // @Router       /api/v1/user/info [put]
 func UpdateUserInfo(c *gin.Context) {
 	var userService service.UserService
@@ -137,15 +137,6 @@ func UpdateUserInfo(c *gin.Context) {
 	}
 }
 
-// UserOnline godoc
-// @Summary  Get User online
-// @Schemes
-// @Description  get user is online or not
-// @Tags         user
-// @Accept       json
-// @Produce      json
-// @Success      200  {string}  UserOnline
-// @Router       /user/online [get]
 func UserOnline(c *gin.Context) {
 	claim, _ := util.ParseToken(c.GetHeader("Authorization"))
 	if cache.GetUserOnline(int(claim.ID)) {

@@ -8,6 +8,9 @@ type GroupMessage struct {
 	SenderID uint `json:"uid" gorm:"column:uid"`
 	Sender   User `json:"sender" gorm:"foreignKey:SenderID"`
 
+	RID      uint  `json:"rid" gorm:"column:rid"`
+	Receiver Group `json:"receiver" gorm:"foreignKey:RID"`
+
 	Content string `json:"content" gorm:"type:text"`
 }
 

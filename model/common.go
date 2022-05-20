@@ -48,6 +48,8 @@ func Setup() {
 	// set auto migrate
 	DB.AutoMigrate(
 		&User{},
+		&Tag{},
+		&Article{},
 		&Group{},
 		&Message{},
 	)

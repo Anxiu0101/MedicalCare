@@ -20,6 +20,75 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/v1/blog": {
+            "post": {
+                "security": [
+                    {
+                        "x-token": []
+                    }
+                ],
+                "description": "用于新建文章",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文章相关接口"
+                ],
+                "summary": "文章发布接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "x-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "文章标题",
+                        "name": "title",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "文章简介",
+                        "name": "desc",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "文章内容",
+                        "name": "content",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/user/info": {
             "get": {
                 "security": [
@@ -59,7 +128,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/model.UserInfo"
+                                            "$ref": "#/definitions/service.UserService"
                                         }
                                     }
                                 }
@@ -107,25 +176,25 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "新密码",
+                        "description": "用户邮箱",
                         "name": "email",
                         "in": "formData"
                     },
                     {
                         "type": "integer",
-                        "description": "新密码",
+                        "description": "用户性别",
                         "name": "gender",
                         "in": "formData"
                     },
                     {
                         "type": "integer",
-                        "description": "新密码",
+                        "description": "用户年龄",
                         "name": "age",
                         "in": "formData"
                     },
                     {
                         "type": "string",
-                        "description": "新密码",
+                        "description": "联系方式",
                         "name": "tel",
                         "in": "formData"
                     }
@@ -134,19 +203,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/model.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/model.UserInfo"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/model.Response"
                         }
                     },
                     "400": {
@@ -348,7 +405,12 @@ const docTemplate = `{
         },
         "/chat/:receiver": {
             "get": {
-                "description": "A chat room connect by websocket",
+                "security": [
+                    {
+                        "x-token": []
+                    }
+                ],
+                "description": "用于聊天室的使用",
                 "consumes": [
                     "application/json"
                 ],
@@ -356,14 +418,42 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "user"
+                    "聊天室相关接口"
                 ],
-                "summary": "chat room api",
+                "summary": "聊天室接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "x-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "聊天对象",
+                        "name": "receiver",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
                         }
                     }
                 }
@@ -405,29 +495,6 @@ const docTemplate = `{
                     "user"
                 ],
                 "summary": "invite member",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/online": {
-            "get": {
-                "description": "get user is online or not",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "Get User online",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -483,7 +550,7 @@ const docTemplate = `{
                 "user": {}
             }
         },
-        "model.UserInfo": {
+        "service.UserService": {
             "type": "object",
             "properties": {
                 "age": {

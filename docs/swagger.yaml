@@ -29,7 +29,7 @@ definitions:
         type: string
       user: {}
     type: object
-  model.UserInfo:
+  service.UserService:
     properties:
       age:
         example: 20
@@ -54,6 +54,51 @@ info:
   title: MedicalCare API
   version: "1.0"
 paths:
+  /api/v1/blog:
+    post:
+      consumes:
+      - application/json
+      description: 用于新建文章
+      parameters:
+      - description: Authorization
+        in: header
+        name: x-token
+        required: true
+        type: string
+      - description: 文章标题
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: 文章简介
+        in: formData
+        name: desc
+        type: string
+      - description: 文章内容
+        in: formData
+        name: content
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - x-token: []
+      summary: 文章发布接口
+      tags:
+      - 文章相关接口
   /api/v1/user/info:
     get:
       consumes:
@@ -75,7 +120,7 @@ paths:
             - $ref: '#/definitions/model.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/model.UserInfo'
+                  $ref: '#/definitions/service.UserService'
               type: object
         "400":
           description: Bad Request
@@ -100,19 +145,19 @@ paths:
         name: x-token
         required: true
         type: string
-      - description: 新密码
+      - description: 用户邮箱
         in: formData
         name: email
         type: string
-      - description: 新密码
+      - description: 用户性别
         in: formData
         name: gender
         type: integer
-      - description: 新密码
+      - description: 用户年龄
         in: formData
         name: age
         type: integer
-      - description: 新密码
+      - description: 联系方式
         in: formData
         name: tel
         type: string
@@ -122,12 +167,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/model.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/model.UserInfo'
-              type: object
+            $ref: '#/definitions/model.Response'
         "400":
           description: Bad Request
           schema:
@@ -259,17 +299,38 @@ paths:
     get:
       consumes:
       - application/json
-      description: A chat room connect by websocket
+      description: 用于聊天室的使用
+      parameters:
+      - description: Authorization
+        in: header
+        name: x-token
+        required: true
+        type: string
+      - description: 聊天对象
+        in: path
+        name: receiver
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: string
-      summary: chat room api
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - x-token: []
+      summary: 聊天室接口
       tags:
-      - user
+      - 聊天室相关接口
   /group:
     post:
       consumes:
@@ -298,21 +359,6 @@ paths:
           schema:
             type: string
       summary: invite member
-      tags:
-      - user
-  /user/online:
-    get:
-      consumes:
-      - application/json
-      description: get user is online or not
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-      summary: Get User online
       tags:
       - user
 swagger: "2.0"

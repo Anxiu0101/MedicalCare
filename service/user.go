@@ -189,7 +189,7 @@ type UserService struct {
 func (service *UserService) GetInfo(uid uint) model.Response {
 	code := e.Success
 
-	var userInfo model.UserInfo
+	var userInfo UserService
 	if err := model.DB.Model(model.User{}).Where("id = ?", uid).Find(&userInfo).Error; err != nil {
 		code = e.Error
 		logging.Info(err)
@@ -226,14 +226,20 @@ func (service *UserService) UpdateInfo(uid uint) model.Response {
 		}
 	}
 
-	if err := model.DB.Model(user).Updates(service).Error; err != nil {
-
+	if err := model.DB.Model(user).Updates(&service).Error; err != nil {
+		code = e.Error
+		logging.Info(err)
+		return model.Response{
+			Code: code,
+			Msg:  e.GetMsg(code),
+			Data: "更新用户资料失败",
+		}
 	}
 
 	return model.Response{
 		Code: code,
 		Msg:  e.GetMsg(code),
-		Data: "Successful login",
+		Data: "用户资料已更新",
 	}
 }
 

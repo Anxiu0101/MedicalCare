@@ -28,25 +28,32 @@ func InitRouter() *gin.Engine {
 	{
 		apiUser.POST("/register", v1.UserRegister)
 		apiUser.POST("/login", v1.UserLogin)
-		apiUser.GET("/token", v1.RefreshAccessToken)
 	}
 
 	// token router
 	apiv1 := r.Group("/api/v1")
 	apiv1.Use(middleware.JWT())
 	{
-		apiv1.POST("/user/password", v1.ResetUserPassword)
+		// User service
+		apiv1.GET("/user/token", v1.RefreshAccessToken)
 		apiv1.GET("/user/info", v1.GetUserInfo)
-		apiv1.PUT("/user/info", v1.UpdateUserInfo)
 		apiv1.GET("/user/online", v1.UserOnline)
+		apiv1.PUT("/user/info", v1.UpdateUserInfo)
+		apiv1.POST("/user/password", v1.ResetUserPassword)
 
+		// blog service
+		apiv1.GET("/blog/:bid")
+		apiv1.POST("/blog", v1.WriteArticle)
+
+		// chat group service
 		apiv1.POST("/group", v1.CreateGroup)
 		apiv1.PUT("/group/member", v1.InviteMember)
 
+		// chat room service
 		apiv1.GET("/chat/:receiver", v1.Chat)
 	}
 
-	// 404 信息返回
+	// 404 Message Return
 	r.NoRoute(func(c *gin.Context) {
 		c.String(http.StatusNotFound, "404 not found")
 	})
