@@ -24,7 +24,7 @@ func InitRouter() *gin.Engine {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	// no token router
-	apiUser := r.Group("/user")
+	apiUser := r.Group("/api/v1/user")
 	{
 		apiUser.POST("/register", v1.UserRegister)
 		apiUser.POST("/login", v1.UserLogin)
@@ -32,7 +32,7 @@ func InitRouter() *gin.Engine {
 	}
 
 	// token router
-	apiv1 := r.Group("/")
+	apiv1 := r.Group("/api/v1")
 	apiv1.Use(middleware.JWT())
 	{
 		apiv1.POST("/user/password", v1.ResetUserPassword)

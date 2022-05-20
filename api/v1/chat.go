@@ -12,14 +12,14 @@ import (
 )
 
 // Chat godoc
-// @Summary chat room api
+// @Summary  chat room api
 // @Schemes
-// @Description A chat room connect by websocket
-// @Tags user
-// @Accept json
-// @Produce json
-// @Success 200 {string} Chat
-// @Router /chat/:receiver [get]
+// @Description  A chat room connect by websocket
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Success      200  {string}  Chat
+// @Router       /chat/:receiver [get]
 func Chat(c *gin.Context) {
 	claim, _ := util.ParseToken(c.GetHeader("Authorization"))
 	sender := claim.Username

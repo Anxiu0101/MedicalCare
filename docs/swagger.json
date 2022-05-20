@@ -4,6 +4,134 @@
         "contact": {}
     },
     "paths": {
+        "/api/v1/user/login": {
+            "post": {
+                "description": "用于用户登陆，接受用户名和用户密码，将 access token 和 refresh token 作为结果返回，同时返回用户的账户信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户相关接口"
+                ],
+                "summary": "用户登陆接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户名",
+                        "name": "username",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户密码",
+                        "name": "password",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.TokenData"
+                        }
+                    },
+                    "400": {
+                        "description": "输入参数错误"
+                    },
+                    "500": {
+                        "description": "服务错误"
+                    }
+                }
+            }
+        },
+        "/api/v1/user/password": {
+            "post": {
+                "description": "用于用户更新密码，需要新密码做为传入的参数，需要 token 验证",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户相关接口"
+                ],
+                "summary": "用户重新设置密码接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "新密码",
+                        "name": "password",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "输入参数错误"
+                    },
+                    "500": {
+                        "description": "服务错误"
+                    }
+                }
+            }
+        },
+        "/api/v1/user/register": {
+            "post": {
+                "description": "用于注册新用户，传入 username 和 password 作为新用户的 username 和 password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户相关接口"
+                ],
+                "summary": "用户注册接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户名",
+                        "name": "username",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户密码",
+                        "name": "password",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "输入参数错误"
+                    },
+                    "500": {
+                        "description": "服务错误"
+                    }
+                }
+            }
+        },
         "/chat/:receiver": {
             "get": {
                 "description": "A chat room connect by websocket",
@@ -117,29 +245,6 @@
                 }
             }
         },
-        "/user/login": {
-            "post": {
-                "description": "help User login site",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "User Login",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
         "/user/online": {
             "get": {
                 "description": "get user is online or not",
@@ -162,51 +267,34 @@
                     }
                 }
             }
-        },
-        "/user/password": {
-            "post": {
-                "description": "help User update account password",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "User reset password",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
+        }
+    },
+    "definitions": {
+        "model.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "error": {
+                    "type": "string"
+                },
+                "msg": {
+                    "type": "string"
                 }
             }
         },
-        "/user/register": {
-            "post": {
-                "description": "help User Create Account",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "User Register",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
+        "model.TokenData": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
+                },
+                "user": {}
             }
         }
     }

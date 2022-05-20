@@ -1,6 +1,110 @@
+definitions:
+  model.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      error:
+        type: string
+      msg:
+        type: string
+    type: object
+  model.TokenData:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+      user: {}
+    type: object
 info:
   contact: {}
 paths:
+  /api/v1/user/login:
+    post:
+      consumes:
+      - application/json
+      description: 用于用户登陆，接受用户名和用户密码，将 access token 和 refresh token 作为结果返回，同时返回用户的账户信息
+      parameters:
+      - description: 用户名
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: 用户密码
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TokenData'
+        "400":
+          description: 输入参数错误
+        "500":
+          description: 服务错误
+      summary: 用户登陆接口
+      tags:
+      - 用户相关接口
+  /api/v1/user/password:
+    post:
+      consumes:
+      - application/json
+      description: 用于用户更新密码，需要新密码做为传入的参数，需要 token 验证
+      parameters:
+      - description: 新密码
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: 输入参数错误
+        "500":
+          description: 服务错误
+      summary: 用户重新设置密码接口
+      tags:
+      - 用户相关接口
+  /api/v1/user/register:
+    post:
+      consumes:
+      - application/json
+      description: 用于注册新用户，传入 username 和 password 作为新用户的 username 和 password
+      parameters:
+      - description: 用户名
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: 用户密码
+        in: formData
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: 输入参数错误
+        "500":
+          description: 服务错误
+      summary: 用户注册接口
+      tags:
+      - 用户相关接口
   /chat/:receiver:
     get:
       consumes:
@@ -75,21 +179,6 @@ paths:
       summary: Update User Info
       tags:
       - user
-  /user/login:
-    post:
-      consumes:
-      - application/json
-      description: help User login site
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-      summary: User Login
-      tags:
-      - user
   /user/online:
     get:
       consumes:
@@ -103,36 +192,6 @@ paths:
           schema:
             type: string
       summary: Get User online
-      tags:
-      - user
-  /user/password:
-    post:
-      consumes:
-      - application/json
-      description: help User update account password
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-      summary: User reset password
-      tags:
-      - user
-  /user/register:
-    post:
-      consumes:
-      - application/json
-      description: help User Create Account
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-      summary: User Register
       tags:
       - user
 swagger: "2.0"

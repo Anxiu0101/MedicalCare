@@ -9,17 +9,17 @@ import (
 	"net/http"
 )
 
-// @BasePath /api/v1
+// @BasePath  /api/v1
 
 // CreateGroup godoc
-// @Summary create group
+// @Summary  create group
 // @Schemes
-// @Description set up a group
-// @Tags user
-// @Accept json
-// @Produce json
-// @Success 200 {string} CreateGroup
-// @Router /group [post]
+// @Description  set up a group
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Success      200  {string}  CreateGroup
+// @Router       /group [post]
 func CreateGroup(c *gin.Context) {
 	var groupService service.GroupService
 	if err := c.ShouldBind(&groupService); err == nil {
@@ -32,14 +32,14 @@ func CreateGroup(c *gin.Context) {
 }
 
 // InviteMember godoc
-// @Summary invite member
+// @Summary  invite member
 // @Schemes
-// @Description invite group members
-// @Tags user
-// @Accept json
-// @Produce json
-// @Success 200 {string} InviteMember
-// @Router /group/member [put]
+// @Description  invite group members
+// @Tags         user
+// @Accept       json
+// @Produce      json
+// @Success      200  {string}  InviteMember
+// @Router       /group/member [put]
 func InviteMember(c *gin.Context) {
 	var groupService service.GroupService
 	if err := c.ShouldBind(&groupService); err == nil {

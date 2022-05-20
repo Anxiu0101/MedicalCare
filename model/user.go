@@ -11,8 +11,8 @@ type User struct {
 	gorm.Model
 
 	// Account Info
-	UserName string `json:"username" gorm:"column:username;not null;uniqueIndex"`
-	Password string `json:"password" gorm:"column:password"`
+	UserName string `json:"username"  example:"Anxiu"  gorm:"column:username;not null;uniqueIndex"`
+	Password string `json:"password"  example:"123456" gorm:"column:password"`
 	Avatars  string `json:"avatars" gorm:"column:avatars"`
 
 	// User Info
@@ -21,7 +21,7 @@ type User struct {
 	Age    int    `json:"age" gorm:"size:8"`
 	Tel    int    `json:"tel" gorm:"size:13"`
 
-	State bool `json:"state" gorm:"column:state"`
+	State bool `json:"state" gorm:"default:true;column:state"`
 }
 
 //SetPassword 设置密码
