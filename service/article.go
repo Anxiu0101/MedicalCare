@@ -51,6 +51,31 @@ func (service *ArticleService) Create(uid uint) model.Response {
 	}
 }
 
+// Remove 移出文章
+// TODO Remove article api
+func (service *ArticleService) Remove(bid, uid uint) model.Response {
+	code := e.Success
+
+	return model.Response{
+		Code: code,
+		Msg:  e.GetMsg(code),
+		Data: "Successful remove this article",
+	}
+}
+
+// Update 更新文章信息
+// TODO Update article api
+func (service *ArticleService) Update(bid, uid uint) model.Response {
+	code := e.Success
+
+	return model.Response{
+		Code: code,
+		Msg:  e.GetMsg(code),
+		Data: "Successful update this article",
+	}
+}
+
+// Show 展示指定文章
 func (service *ArticleService) Show(bid uint) model.Response {
 	code := e.Success
 
