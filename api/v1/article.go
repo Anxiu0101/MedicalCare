@@ -3,9 +3,11 @@ package v1
 import (
 	"MedicalCare/model"
 	"MedicalCare/pkg/logging"
+	"MedicalCare/pkg/util"
 	"MedicalCare/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 // WriteArticle godoc
@@ -26,7 +28,8 @@ import (
 func WriteArticle(c *gin.Context) {
 	var articleService service.ArticleService
 	if err := c.ShouldBind(&articleService); err == nil {
-		res := articleService.Create()
+		claim, _ := util.ParseToken(c.GetHeader("Authorization"))
+		res := articleService.Create(claim.ID)
 		c.JSON(http.StatusOK, res)
 	} else {
 		logging.Info(err)
@@ -43,7 +46,15 @@ func UpdateArticle(c *gin.Context) {
 }
 
 func GetArticle(c *gin.Context) {
-
+	var articleService service.ArticleService
+	if err := c.ShouldBind(&articleService); err == nil {
+		bid, _ := strconv.Atoi(c.Param("bid"))
+		res := articleService.Show(uint(bid))
+		c.JSON(http.StatusOK, res)
+	} else {
+		logging.Info(err)
+		c.JSON(http.StatusBadRequest, model.ErrorResponse(err))
+	}
 }
 
 func GetArticles(c *gin.Context) {

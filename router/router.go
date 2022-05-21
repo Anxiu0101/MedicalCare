@@ -42,8 +42,11 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/user/password", v1.ResetUserPassword)
 
 		// blog service
-		apiv1.GET("/blog/:bid")
 		apiv1.POST("/blog", v1.WriteArticle)
+		apiv1.GET("/blog", v1.GetArticles)
+		apiv1.GET("/blog/:bid", v1.GetArticle)
+		apiv1.PUT("/blog/:bid", v1.UpdateArticle)
+		apiv1.DELETE("/blog/:bid", v1.RemoveArticle)
 
 		// chat group service
 		apiv1.POST("/group", v1.CreateGroup)

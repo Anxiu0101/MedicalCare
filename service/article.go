@@ -3,6 +3,7 @@ package service
 import (
 	"MedicalCare/model"
 	"MedicalCare/pkg/e"
+	"MedicalCare/pkg/logging"
 )
 
 type ArticleService struct {
@@ -12,12 +13,61 @@ type ArticleService struct {
 }
 
 // Create 新建文章
-func (service *ArticleService) Create() model.Response {
+func (service *ArticleService) Create(uid uint) model.Response {
 	code := e.Success
+
+	var user model.User
+	if err := model.DB.Model(model.User{}).Where("id = ?", uid).Find(&user).Error; err != nil {
+		code = e.InvalidParams
+		logging.Info(err)
+		return model.Response{
+			Code: code,
+			Msg:  e.GetMsg(code),
+			Data: "此用户不存在",
+		}
+	}
+
+	article := model.Article{
+		User:    user,
+		Title:   service.Title,
+		Desc:    service.Desc,
+		Content: service.Content,
+	}
+
+	if err := model.DB.Model(model.Article{}).Create(&article).Error; err != nil {
+		code = e.Error
+		logging.Info(err)
+		return model.Response{
+			Code: code,
+			Msg:  e.GetMsg(code),
+			Data: "文章创建异常",
+		}
+	}
 
 	return model.Response{
 		Code: code,
 		Msg:  e.GetMsg(code),
 		Data: "Successful write the article",
+	}
+}
+
+func (service *ArticleService) Show(bid uint) model.Response {
+	code := e.Success
+
+	var article model.Article
+	if err := model.DB.Model(model.Article{}).Preload("User", model.AccountInfo{}).Where("id = ?", bid).Find(&article).Error; err != nil {
+		code = e.InvalidParams
+		logging.Info(err)
+		return model.Response{
+			Code: code,
+			Msg:  e.GetMsg(code),
+			Data: "查找不到该文章",
+		}
+	}
+
+	return model.Response{
+		Code: code,
+		Msg:  e.GetMsg(code),
+		Data: article,
 	}
 }
