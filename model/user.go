@@ -12,7 +12,7 @@ type User struct {
 
 	// Account Info
 	UserName string `json:"username" gorm:"column:username;not null;uniqueIndex"`
-	Password string `json:"password" gorm:"column:password"`
+	Password string `json:"-" gorm:"column:password"`
 	Avatars  string `json:"avatars" gorm:"column:avatars"`
 
 	// User Info

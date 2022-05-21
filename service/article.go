@@ -55,7 +55,7 @@ func (service *ArticleService) Show(bid uint) model.Response {
 	code := e.Success
 
 	var article model.Article
-	if err := model.DB.Model(model.Article{}).Preload("User", model.AccountInfo{}).Where("id = ?", bid).Find(&article).Error; err != nil {
+	if err := model.DB.Joins("User", model.DB.Where(&model.User{State: false})).Find(&article).Error; err != nil {
 		code = e.InvalidParams
 		logging.Info(err)
 		return model.Response{
